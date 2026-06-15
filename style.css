@@ -1,0 +1,254 @@
+:root {
+    --bg-color: #0d001a;
+    --cyan-glow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+    --magenta-glow: 0 0 5px #f0f, 0 0 10px #f0f, 0 0 20px #f0f;
+    --yellow-glow: 0 0 5px #ff0, 0 0 10px #ff0, 0 0 20px #ff0;
+    --green-glow: 0 0 5px #0f0, 0 0 10px #0f0, 0 0 20px #0f0;
+    --white-glow: 0 0 5px #fff, 0 0 10px #fff;
+    --main-font: 'Rajdhani', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--main-font);
+    color: #fff;
+    background-color: var(--bg-color);
+    background-image: url('https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=80&w=2000&auto=format&fit=crop'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-blend-mode: overlay;
+}
+
+* {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
+    box-sizing: border-box;
+}
+
+/* Navigasiya */
+nav {
+    background: rgba(13, 0, 26, 0.9);
+    border-bottom: 2px solid #0ff;
+    box-shadow: 0 0 15px #0ff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #0ff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #fff;
+    text-shadow: var(--cyan-glow);
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.arrow {
+    font-size: 0.8rem;
+    vertical-align: middle;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #0d001a;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    border: 1px solid #0ff;
+    border-radius: 5px;
+    top: 35px;
+    overflow: hidden;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-link {
+    color: #0ff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.dropdown-link:hover {
+    background-color: rgba(0, 255, 255, 0.2);
+    color: #fff;
+    text-shadow: var(--cyan-glow);
+}
+
+/* Əsas Məzmun */
+main {
+    max-width: 1200px;
+    margin: 100px auto 50px auto;
+    padding: 0 20px;
+}
+
+.main-title {
+    text-align: center;
+    font-size: 3rem;
+    color: #fff;
+    text-transform: uppercase;
+    text-shadow: var(--magenta-glow);
+    margin-bottom: 50px;
+}
+
+section {
+    background: rgba(25, 0, 50, 0.6);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    transition: box-shadow 0.3s ease;
+}
+
+#theory { border: 2px solid #ff0; box-shadow: 0 0 10px #ff0; }
+#questions { border: 2px solid #0ff; box-shadow: 0 0 10px #0ff; }
+#drive { border: 2px solid #0f0; box-shadow: 0 0 10px #0f0; }
+#animations { border: 2px solid #f0f; box-shadow: 0 0 10px #f0f; }
+
+section:hover {
+    box-shadow: 0 0 25px currentColor;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#theory .section-title { color: #ff0; text-shadow: var(--yellow-glow); }
+#questions .section-title { color: #0ff; text-shadow: var(--cyan-glow); }
+#drive .section-title { color: #0f0; text-shadow: var(--green-glow); }
+#animations .section-title { color: #f0f; text-shadow: var(--magenta-glow); }
+
+/* Siyahı və Sənədlər */
+.doc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.doc-item {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.doc-item-icon {
+    margin-right: 15px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+#theory .doc-item-icon { background: #ff0; box-shadow: var(--yellow-glow); }
+#questions .doc-item-icon { background: #0ff; box-shadow: var(--cyan-glow); }
+
+.doc-link {
+    text-decoration: none;
+    color: #fff;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.doc-link:hover {
+    color: #fff;
+    text-shadow: 0 0 8px #fff;
+}
+
+/* Alt qovluqlar (Yerli / Xarici) */
+.sub-file-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .sub-file-container { flex-direction: row; }
+}
+
+.sub-file-box {
+    flex: 1;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.sub-file-title {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #0ff;
+    text-shadow: var(--cyan-glow);
+    margin-top: 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    padding-bottom: 5px;
+}
+
+.sub-info {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+/* Drive düyməsi */
+.drive-info { margin-bottom: 25px; color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; }
+.drive-btn {
+    display: inline-block;
+    background: transparent;
+    color: #0f0;
+    border: 2px solid #0f0;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: var(--green-glow);
+}
+
+.drive-btn:hover {
+    background: #0f0;
+    color: #0d001a;
+    box-shadow: 0 0 15px #0f0, 0 0 30px #0f0;
+    cursor: pointer;
+}
+
+/* Animasiya bölməsi tərzi */
+.anim-placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    font-size: 1.1rem;
+}

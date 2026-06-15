@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Olimpiada Resursları Portalı</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Inter covers full Azerbaijani charset (ə, ş, ı, ü, ö, ğ, ç) -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --bg:        #06010F;
+      --surface:   rgba(18, 4, 40, 0.75);
+      --border:    rgba(139, 92, 246, 0.3);
+      --violet:    #8B5CF6;
+      --cyan:      #06B6D4;
+      --white:     #F0EEFF;
+      --muted:     rgba(240, 238, 255, 0.5);
+      --glow-v:    0 0 8px #8B5CF6, 0 0 24px rgba(139,92,246,0.4);
+      --glow-c:    0 0 8px #06B6D4, 0 0 24px rgba(6,182,212,0.4);
+      --radius:    14px;
+      --nav-h:     64px;
+      --font-head: 'Orbitron', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* ── RESET ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GALAXY BACKGROUND ──────────────────────────────────── */
+    #galaxy {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAVIGATION ─────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      background: rgba(6, 1, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(139,92,246,0.2), 0 4px 32px rgba(0,0,0,0.6);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 24px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: var(--violet);
+      text-shadow: var(--glow-v);
+      margin-right: auto;
+      text-decoration: none;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      color: var(--white);
+      background: rgba(139,92,246,0.12);
+    }
+    .nav-link.active {
+      color: var(--violet);
+      text-shadow: var(--glow-v);
+    }
+
+    /* Dropdown */
+    .dropdown { position: relative; }
+    .dropdown-toggle { cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .dropdown-toggle svg { width: 10px; height: 10px; transition: transform 0.2s; }
+    .dropdown:hover .dropdown-toggle svg { transform: rotate(180deg); }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(12, 3, 28, 0.97);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      min-width: 160px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), var(--glow-v);
+    }
+    .dropdown:hover .dropdown-menu { display: block; }
+
+    .dropdown-item {
+      display: block;
+      padding: 10px 18px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .dropdown-item:hover {
+      background: rgba(139,92,246,0.15);
+      color: var(--white);
+    }
+    .dropdown-item + .dropdown-item {
+      border-top: 1px solid rgba(139,92,246,0.12);
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────────── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 72px) 24px 80px;
+    }
+
+    /* ── HERO ───────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-head);
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-shadow: var(--glow-c);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .hero-title span {
+      color: var(--violet);
+      text-shadow: var(--glow-v);
+    }
+    .hero-sub {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    .hero-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--cyan));
+      margin: 28px auto 0;
+      border-radius: 2px;
+      box-shadow: 0 0 12px var(--violet);
+    }
+
+    /* ── SECTION CARD ───────────────────────────────────────── */
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--violet);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .section-card:hover {
+      border-color: var(--violet);
+      box-shadow: -4px 0 24px rgba(139,92,246,0.25), 0 0 0 1px rgba(139,92,246,0.15);
+    }
+    .section-card.cyan-accent {
+      border-left-color: var(--cyan);
+    }
+    .section-card.cyan-accent:hover {
+      border-color: var(--cyan);
+      box-shadow: -4px 0 24px rgba(6,182,212,0.25), 0 0 0 1px rgba(6,182,212,0.15);
+    }
+
+    .section-label {
+      font-family: var(--font-head);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 8px;
+    }
+    .section-card.cyan-accent .section-label { color: var(--cyan); }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── DOC LIST ───────────────────────────────────────────── */
+    .doc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(139,92,246,0.1);
+      border-radius: 8px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .doc-item:hover {
+      background: rgba(139,92,246,0.08);
+      border-color: rgba(139,92,246,0.35);
+    }
+    .doc-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(139,92,246,0.15);
+      border: 1px solid rgba(139,92,246,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon svg { width: 14px; height: 14px; color: var(--violet); }
+    .cyan-accent .doc-icon {
+      background: rgba(6,182,212,0.12);
+      border-color: rgba(6,182,212,0.3);
+    }
+    .cyan-accent .doc-icon svg { color: var(--cyan); }
+
+    .doc-link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      flex: 1;
+      transition: color 0.2s;
+    }
+    .doc-link:hover { color: var(--violet); }
+    .cyan-accent .doc-link:hover { color: var(--cyan); }
+
+    .doc-badge {
+      font-family: var(--font-head);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Add-note for user */
+    .user-note {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(6,182,212,0.06);
+      border: 1px dashed rgba(6,182,212,0.3);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .user-note strong { color: var(--cyan); display: block; margin-bottom: 2px; }
+    .user-note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── SUB-FOLDERS (Yerli / Xarici) ──────────────────────── */
+    .subfolder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 600px) {
+      .subfolder-grid { grid-template-columns: 1fr; }
+    }
+
+    .subfolder {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,182,212,0.18);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .subfolder-title {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: var(--glow-c);
+      margin-bottom: 6px;
+    }
+    .subfolder-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── DRIVE SECTION ──────────────────────────────────────── */
+    .drive-inner {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .drive-text {
+      flex: 1;
+      min-width: 200px;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .drive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      background: transparent;
+      border: 1.5px solid var(--violet);
+      border-radius: 8px;
+      color: var(--violet);
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.25s;
+      box-shadow: var(--glow-v);
+      white-space: nowrap;
+    }
+    .drive-btn:hover {
+      background: var(--violet);
+      color: var(--bg);
+      box-shadow: 0 0 20px var(--violet), 0 0 40px rgba(139,92,246,0.4);
+    }
+    .drive-btn svg { width: 16px; height: 16px; }
+
+    /* ── ASTRONOMY SECTION ──────────────────────────────────── */
+    .astro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 4px;
+    }
+    .astro-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(139,92,246,0.18);
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .astro-card:hover {
+      background: rgba(139,92,246,0.07);
+      border-color: rgba(139,92,246,0.4);
+    }
+    .astro-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+    .astro-card-title {
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin-bottom: 6px;
+    }
+    .astro-card-body {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── ANIMATIONS SECTION ─────────────────────────────────── */
+    .anim-empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .anim-empty .anim-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.4; }
+    #animation-container { min-height: 20px; }
+
+    /* ── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+      font-size: 0.75rem;
+      color: rgba(240,238,255,0.2);
+      border-top: 1px solid rgba(139,92,246,0.1);
+      font-family: var(--font-head);
+      letter-spacing: 0.12em;
+    }
+
+    /* ── SCROLL INDICATOR ───────────────────────────────────── */
+    #scroll-line {
+      position: fixed;
+      top: var(--nav-h);
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--violet), var(--cyan));
+      box-shadow: 0 0 8px var(--violet);
+      z-index: 99;
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Galaxy canvas background -->
+<canvas id="galaxy"></canvas>
+
+<!-- Scroll progress line -->
+<div id="scroll-line"></div>
+
+<!-- ── NAVIGATION ────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">⬡ OLIMPIADA</a>
+
+    <a href="#theory" class="nav-link">Nəzəriyyə</a>
+
+    <div class="dropdown">
+      <span class="nav-link dropdown-toggle">
+        Olimpiada Sualları
+        <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg>
+      </span>
+      <div class="dropdown-menu">
+        <a href="#yerli" class="dropdown-item">Yerli</a>
+        <a href="#xarici" class="dropdown-item">Xarici</a>
+      </div>
+    </div>
+
+    <a href="#drive" class="nav-link">Google Drive</a>
+    <a href="#astronomy" class="nav-link">Astronomiya Olimpiadası haqqında</a>
+    <a href="#animations" class="nav-link">Animasiyalar</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ──────────────────────────────────────────────────── -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Azərbaycan · Riyaziyyat &amp; Elm</p>
+    <h1 class="hero-title">Olimpiada<br><span>Materialları</span><br>Portalı</h1>
+    <p class="hero-sub">Müsabiqəyə hazırlıq üçün nəzəriyyə, suallar, resurslar və interaktiv vasitələr.</p>
+    <div class="hero-line"></div>
+  </div>
+
+  <!-- ── 1. THEORY ─────────────────────────────────────────── -->
+  <div class="section-card" id="theory">
+    <p class="section-label">01 · Bölmə</p>
+    <h2 class="section-title">Nəzəriyyə Materialları</h2>
+
+    <ul class="doc-list">
+      <!--
+        ╔══════════════════════════════════════════════════════╗
+        ║  NECƏ ƏLAVƏ EDİLİR:                                 ║
+        ║  href="" — fayl linkinizi buraya yapışdırın.        ║
+        ║  .doc-badge — fayl növünü yazın (PDF, DOCX...)      ║
+        ║  Hər yeni sənəd üçün aşağıdakı <li>...</li>        ║
+        ║  blokunu kopyalayıb yapışdırın.                     ║
+        ╚══════════════════════════════════════════════════════╝
+      -->
+      <li class="doc-item">
+        <div class="doc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <a href="URL_DOC1.pdf" target="_blank" class="doc-link">Kombinatorika Qeydləri</a>
+        <span class="doc-badge">PDF</span>
+      </li>
+      <li class="doc-item">
+        <div class="doc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <a href="URL_DOC2.docx" target="_blank" class="doc-link">C++ Programlaşdırma Əsasları</a>
+        <span class="doc-badge">DOCX</span>
+      </li>
+      <!-- YENİ SƏNƏD: aşağıdakı <li> blokunu kopyalayıb işlədin -->
+      <!--
+      <li class="doc-item">
+        <div class="doc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <a href="LINKINIZI_BURA_QOYUN" target="_blank" class="doc-link">Sənədin Adı</a>
+        <span class="doc-badge">PDF</span>
+      </li>
+      -->
+    </ul>
+
+    <div class="user-note">
+      <span class="user-note-icon">📎</span>
+      <span><strong>Sənəd əlavə etmək üçün:</strong> Yuxarıdakı hər <code>&lt;li class="doc-item"&gt;</code> blokunu kopyalayın, href-i öz linkinizdən (Google Drive shareable link, Dropbox, etc.) dəyişin, başlığı yazın. Badge-ə fayl növünü (PDF / DOCX / PPTX) yazın.</span>
+    </div>
+  </div>
+
+  <!-- ── 2. OLIMPIADA SUALLARI ─────────────────────────────── -->
+  <div class="section-card cyan-accent" id="questions">
+    <p class="section-label">02 · Bölmə</p>
+    <h2 class="section-title">Olimpiada Sualları</h2>
+
+    <div class="subfolder-grid">
+
+      <!-- YERLİ -->
+      <div class="subfolder" id="yerli">
+        <p class="subfolder-title">Yerli</p>
+        <p class="subfolder-desc">Respublika miqyaslı yarışların sualları.</p>
+        <ul class="doc-list">
+          <li class="doc-item">
+            <div class="doc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <a href="URL_LOCAL1.pdf" target="_blank" class="doc-link">RFO 2024 — 9-cu sinif</a>
+            <span class="doc-badge">PDF</span>
+          </li>
+          <!--
+            YENİ YERLİ SUAL ƏLAVƏ ET:
+            <li class="doc-item">
+              <div class="doc-icon">...</div>
+              <a href="LINK" target="_blank" class="doc-link">Başlıq</a>
+              <span class="doc-badge">PDF</span>
+            </li>
+          -->
+        </ul>
+      </div>
+
+      <!-- XARİCİ -->
+      <div class="subfolder" id="xarici">
+        <p class="subfolder-title">Xarici</p>
+        <p class="subfolder-desc">Beynəlxalq yarışların sualları.</p>
+        <ul class="doc-list">
+          <li class="doc-item">
+            <div class="doc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <a href="URL_INT1.pdf" target="_blank" class="doc-link">IMO 2023 — Problem Set</a>
+            <span class="doc-badge">PDF</span>
+          </li>
+          <!--
+            YENİ XARİCİ SUAL ƏLAVƏ ET:
+            <li class="doc-item">
+              <div class="doc-icon">...</div>
+              <a href="LINK" target="_blank" class="doc-link">Başlıq</a>
+              <span class="doc-badge">PDF</span>
+            </li>
+          -->
+        </ul>
+      </div>
+
+    </div><!-- /subfolder-grid -->
+
+    <div class="user-note">
+      <span class="user-note-icon">📎</span>
+      <span><strong>Sual əlavə etmək üçün:</strong> "Yerli" və ya "Xarici" alt-qovluğunda comment blokunu kopyalayın, linki və başlığı dəyişin. Yeni il və ya sinif üçün yeni <code>&lt;li&gt;</code> elementi yaradın.</span>
+    </div>
+  </div>
+
+  <!-- ── 3. GOOGLE DRIVE ────────────────────────────────────── -->
+  <div class="section-card" id="drive">
+    <p class="section-label">03 · Bölmə</p>
+    <h2 class="section-title">Google Drive</h2>
+
+    <div class="drive-inner">
+      <p class="drive-text">
+        Bütün əlavə materiallar, köhnə variantlar və video resurslar mərkəzi Google Drive qovluğunda toplanıb.
+        Aşağıdakı düyməni klikləyib tam arxivə daxil ola bilərsiniz.
+        <br><br>
+        <!--
+          DRIVE LİNKİNİZİ ƏLAVƏ ETMƏYİN YOLU:
+          Aşağıdakı <a> etiketinin href="" dəyərini
+          Google Drive qovluğunuzun "Paylaş → Linkə sahib olan görə bilər"
+          linkiylə əvəz edin.
+        -->
+      </p>
+      <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="drive-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        Drive Qovluğunu Aç
+      </a>
+    </div>
+  </div>
+
+  <!-- ── 4. ASTRONOMİYA OLİMPİADASI HAQQINDA ──────────────── -->
+  <div class="section-card" id="astronomy">
+    <p class="section-label">04 · Bölmə</p>
+    <h2 class="section-title">Astronomiya Olimpiadası haqqında</h2>
+
+    <div class="astro-grid">
+      <div class="astro-card">
+        <div class="astro-card-icon">🔭</div>
+        <p class="astro-card-title">Olimpiada nədir?</p>
+        <p class="astro-card-body">
+          <!--
+            BURAYA ÖZ MƏTNİNİZİ YAZIN:
+            Astronomiya olimpiadasının təsviri, hansı səviyyələr var,
+            neçə mərhələdən ibarətdir və s.
+          -->
+          [Bu bölməyə astronomiya olimpiadası haqqında qısa məlumat əlavə edin.]
+        </p>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">📅</div>
+        <p class="astro-card-title">Keçirilmə tarixi</p>
+        <p class="astro-card-body">
+          <!--
+            BURAYA TARİX VƏ CƏDVƏLİ YAZIN:
+            İllik cədvəl, qeydiyyat son tarixi, yarış tarixi.
+          -->
+          [Olimpiadanın illik cədvəlini və əsas tarixlərini bura yazın.]
+        </p>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">📋</div>
+        <p class="astro-card-title">Tələblər</p>
+        <p class="astro-card-body">
+          <!--
+            BURAYA TƏLƏBLƏRİ YAZIN:
+            İştirak şərtləri, yaş həddi, hazırlıq üçün tövsiyələr.
+          -->
+          [İştirak şərtlərini və hazırlıq tövsiyələrini bura yazın.]
+        </p>
+      </div>
+      <div class="astro-card">
+        <div class="astro-card-icon">🏅</div>
+        <p class="astro-card-title">Nailiyyətlər</p>
+        <p class="astro-card-body">
+          <!--
+            BURAYA NAİLİYYƏTLƏRİ YAZIN:
+            Keçmiş illər üzrə nəticələr, qazanılan medallar.
+          -->
+          [Ölkənizin/komandanızın keçmiş nailiyyətlərini bura yazın.]
+        </p>
+      </div>
+    </div>
+
+    <div class="user-note">
+      <span class="user-note-icon">✏️</span>
+      <span><strong>Bu bölməni doldurmaq üçün:</strong> Hər <code>.astro-card-body</code> etiketinin içindəki placeholder mətni (köşəli mötərizələr daxil) öz məzmununuzla əvəz edin. İstəsəniz yeni kart əlavə edə bilərsiniz — <code>&lt;div class="astro-card"&gt;</code> blokunu kopyalayın.</span>
+    </div>
+  </div>
+
+  <!-- ── 5. İNTERAKTİV ANİMASİYALAR ───────────────────────── -->
+  <div class="section-card cyan-accent" id="animations">
+    <p class="section-label">05 · Bölmə</p>
+    <h2 class="section-title">İnteraktiv Animasiyalar</h2>
+
+    <div class="anim-empty">
+      <div class="anim-icon">⚙️</div>
+      Bu bölmə hazırlanır. Növbəti mərhələdə vizual alqoritm simulyasiyaları əlavə ediləcək.
+    </div>
+    <div id="animation-container"></div>
+  </div>
+
+</main>
+
+<footer>⬡ OLİMPİADA PORTALI · AZƏRBAYCAN</footer>
+
+<!-- ── SCRIPTS ────────────────────────────────────────────────── -->
+<script>
+/* ── GALAXY CANVAS ──────────────────────────────────────────── */
+(function () {
+  const canvas = document.getElementById('galaxy');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [], nebula = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 320; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.3 + 0.2,
+        o: Math.random() * 0.7 + 0.15,
+        speed: Math.random() * 0.008 + 0.002,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+    nebula = [];
+    const cols = ['#4c1d95','#1e1b4b','#0c4a6e','#312e81','#1a0533'];
+    for (let i = 0; i < 6; i++) {
+      nebula.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        rx: 180 + Math.random() * 220,
+        ry: 140 + Math.random() * 180,
+        col: cols[i % cols.length],
+        a: 0.06 + Math.random() * 0.08
+      });
+    }
+  }
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // deep-space gradient
+    const bg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W,H)*0.75);
+    bg.addColorStop(0, '#120229');
+    bg.addColorStop(1, '#06010F');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // nebula blobs
+    nebula.forEach(n => {
+      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.rx);
+      g.addColorStop(0, n.col.replace(')', `, ${n.a})`).replace('rgb', 'rgba').replace('#', 'rgba(') );
+      // simpler approach:
+      ctx.save();
+      ctx.globalAlpha = n.a;
+      ctx.filter = 'blur(60px)';
+      ctx.fillStyle = n.col;
+      ctx.beginPath();
+      ctx.ellipse(n.x, n.y, n.rx, n.ry, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    // stars with gentle twinkle
+    t += 0.012;
+    stars.forEach(s => {
+      const twinkle = s.o * (0.6 + 0.4 * Math.sin(t * s.speed * 60 + s.phase));
+      ctx.save();
+      ctx.globalAlpha = twinkle;
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = '#8B5CF6';
+      ctx.shadowBlur = s.r > 1 ? 6 : 0;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize();
+  initStars();
+  draw();
+})();
+
+/* ── SCROLL PROGRESS LINE ───────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  const scrolled = document.documentElement.scrollTop;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-line').style.width = (scrolled / total * 100) + '%';
+});
+
+/* ── INIT LOG ───────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Portalın mühərriki işə düşdü 🌌');
+  // Gələcəkdə initAnimations() buraya əlavə ediləcək
+});
+</script>
+</body>
+</html>
