@@ -1085,33 +1085,157 @@ footer {
 
       <!-- Sağ kiçik kartlar -->
       <div class="astro-side-cards">
-        <div class="glass-card reveal reveal-delay-2">
-          <div class="astro-icon">📅</div>
-          <p class="astro-card-title">Cədvəl və tarixlər</p>
-          <p class="astro-card-body">
-            <!--
-              TARİX VƏ CƏDVƏLİ BURAYA ƏLAVƏ EDİN:
-              Qeydiyyat son tarixi, yarış tarixi,
-              nəticə elan tarixi.
-            -->
-            [İllik cədvəl: qeydiyyat, yarış, nəticə tarixlərini bura yazın.]
-          </p>
-        </div>
 
-        <div class="glass-card reveal reveal-delay-3">
-          <div class="astro-icon">🏅</div>
-          <p class="astro-card-title">Nailiyyətlər</p>
-          <p class="astro-card-body">
-            <!--
-              NAİLİYYƏTLƏRİ BURAYA YAZIN:
-              Keçmiş il nəticələri, qazanılan medallar,
-              beynəlxalq yarışlardakı uğurlar.
-            -->
-            [Komandanın / ölkənin keçmiş olimpiada nailiyyətlərini bura əlavə edin.]
-          </p>
-        </div>
+      <div class="glass-card reveal reveal-delay-2">
+          <div class="astro-icon">📅</div>
+              <p class="astro-card-title">Cədvəl və tarixlər</p>
+              <p class="astro-card-body">
+                  [İllik cədvəl: qeydiyyat, yarış, nəticə tarixlərini bura yazın.]
+              </p>
       </div>
-    </div>
+
+      <!-- NAILIYYETLER BUTTON -->
+      <div class="glass-card reveal reveal-delay-3" onclick="toggleSection()" style="cursor:pointer;">
+          <div class="astro-icon">🏅</div>
+              <p class="astro-card-title">Nailiyyətlər</p>
+              <p class="astro-card-body">
+              Baxmaq üçün kliklə
+              </p>
+          </div>
+
+      </div>
+
+      <!-- AÇILAN HİSSƏ -->
+      <div id="nailiyyetler" style="display:none; margin-top:15px;">
+          <div class="glass-card">
+              <p class="astro-card-title">Nailiyyətlər</p>
+              <p class="astro-card-body">
+                  <b>2025</b><br>
+                  Komanda rəhbərləri: Famil Mustafa, Vaqif Əliyev<br>
+                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+                <tr>
+                    <th style="text-align:left;">İştirakçı</th>
+                    <th style="text-align:left;">Nəticə</th>
+                </tr>
+                <tr>
+                    <td>Oqtay Lətifli</td>
+                    <td>Bürünc medal</td>
+                </tr>
+                <tr>
+                    <td>Məhəmməd Cəfərli</td>
+                    <td>Bürünc medal</td>
+                </tr>
+                <tr>
+                    <td>Aqil Güləliyev</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Raiq Babazadə</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Elvin Məcidov</td>
+                    <td> </td>
+                </tr>
+            </table>
+                
+                  <br>
+
+                
+                  <b>2024</b><br>
+                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+                <tr>
+                    <th style="text-align:left;">İştirakçı</th>
+                    <th style="text-align:left;">Nəticə</th>
+                </tr>
+                <tr>
+                    <td>Məhəmməd Cəfərli</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Oqtay Lətifli</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Aqil Güləliyev</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Adil Səttarov</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Atilla Muradlı</td>
+                    <td> </td>
+                </tr>
+            </table>
+                
+                  <br>
+
+                  <b>2023</b><br>
+                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+                <tr>
+                    <th style="text-align:left;">İştirakçı</th>
+                    <th style="text-align:left;">Nəticə</th>
+                </tr>
+                <tr>
+                    <td>Qəndab Məmmədova</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Nicat Abbasov</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Oqtay Lətifli</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Nəzrin Miriyeva</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Atilla Muradlı</td>
+                    <td> </td>
+                </tr>
+            </table>
+
+            
+                  <br>
+
+                  <b>2022</b><br>
+                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+                <tr>
+                    <th style="text-align:left;">İştirakçı</th>
+                    <th style="text-align:left;">Nəticə</th>
+                </tr>
+                <tr>
+                    <td>Vaqif Əliyev</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Nicat Abbasov</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Qəndab Məmmədova</td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Fəxriyyə ...</td>
+                    <td>Həvəsləndirici mükafat</td>
+                </tr>
+                <tr>
+                    <td>Rəşad ...</td>
+                    <td> </td>
+                </tr>
+            </table>
+              </p>
+          </div>
+      </div>
 
     <!-- Əlavə kart sırası -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" class="reveal reveal-delay-2">
