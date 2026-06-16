@@ -8,15 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function toggleSection(id) {
     window.toggleSection = function(id) {
-    const section = document.getElementById(id);
+    let section = document.getElementById(id);
 
-    if (section) {
-        if (section.style.display === "none" || section.style.display === "") {
-            section.style.display = "block";
-        } else {
-            section.style.display = "none";
-        }
+    if (section === null) {
+        console.log("Tapılmadı:", id);
+        return;
     }
+
+    if (section.style.display === "none") {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+    };
 }
 
 window.toggleSection = toggleSection;
