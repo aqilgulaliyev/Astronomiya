@@ -42,6 +42,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 
+<script>
+window.toggleSection = function(id) {
+    const section = document.getElementById(id);
+
+    if (section) {
+        section.style.display =
+            section.style.display === "block" ? "none" : "block";
+    }
+};
+</script>
+
 body {
   font-family: var(--font-body);
   background: var(--ink);
