@@ -1,16 +1,26 @@
-// Sayt uğurla yükləndikdə konsola mesaj yazdırırıq (Yoxlamaq üçün)
+// Sayt uğurla yükləndikdə konsola mesaj yazdırırıq
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Portalın neon mühərriki işə düşdü... 🌌");
-    
-    // Gələcəkdə interaktiv animasiyaları idarə edəcəyimiz funksiyanın təməli:
+
     initAnimations();
 });
 
+
+function toggleSection(id) {
+    const section = document.getElementById(id);
+
+    if (section.style.display === "none" || section.style.display === "") {
+        section.style.display = "block";
+    } else {
+        section.style.display = "none";
+    }
+}
+
+
 function initAnimations() {
     const container = document.getElementById("animation-container");
-    
-    // Bura növbəti mərhələdə dinamik elementlər (məs. alqoritm vizuallaşdırmaları) gələcək.
+
     if (container) {
-        // Hələlik boş saxlanılır (User request: dealing with this later)
+        // hələlik boş
     }
 }
