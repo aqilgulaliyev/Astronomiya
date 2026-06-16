@@ -7,11 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function toggleSection(id) {
+    window.toggleSection = function(id) {
     const section = document.getElementById(id);
 
     if (section) {
-        section.style.display =
-            section.style.display === "none" ? "block" : "none";
+        if (section.style.display === "none" || section.style.display === "") {
+            section.style.display = "block";
+        } else {
+            section.style.display = "none";
+        }
     }
 }
 
