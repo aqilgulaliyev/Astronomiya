@@ -34,3 +34,22 @@ function initAnimations() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+
+    const button = document.getElementById("nailiyyetButton");
+    const section = document.getElementById("nailiyyetler");
+
+    if (button && section) {
+        button.addEventListener("click", () => {
+
+            if (section.style.display === "none" || section.style.display === "") {
+                section.style.display = "block";
+            } else {
+                section.style.display = "none";
+            }
+
+        });
+    }
+
+});
+
