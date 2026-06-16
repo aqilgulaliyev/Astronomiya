@@ -29,6 +29,32 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 
+#nailiyyetler table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+
+#nailiyyetler th,
+#nailiyyetler td {
+  border: 1px solid rgba(155, 111, 255, 0.25);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+#nailiyyetler th {
+  border-color: rgba(155, 111, 255, 0.45);
+  color: var(--violet);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#nailiyyetler tr:hover td {
+  background: rgba(155, 111, 255, 0.06);
+}
+  
 body {
   font-family: var(--font-body);
   background: var(--ink);
