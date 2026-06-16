@@ -9,12 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
 function toggleSection(id) {
     const section = document.getElementById(id);
 
-    if (section.style.display === "none" || section.style.display === "") {
-        section.style.display = "block";
-    } else {
-        section.style.display = "none";
+    if (section) {
+        section.style.display =
+            section.style.display === "none" ? "block" : "none";
     }
 }
+
+window.toggleSection = toggleSection;
 
 
 function initAnimations() {
@@ -24,3 +25,4 @@ function initAnimations() {
         // hələlik boş
     }
 }
+
