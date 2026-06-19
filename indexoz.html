@@ -6,16 +6,9 @@
 <title>Olimpiada Resursları Portalı</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!--
-  Inter = full Azerbaijani Unicode charset (ə ş ı ü ö ğ ç)
-  Syne = kinetic display font with weight axis for scroll animation
--->
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
 <style>
-/* ══════════════════════════════════════════════════
-   DESIGN TOKENS
-══════════════════════════════════════════════════ */
 :root {
   --ink:        #03000A;
   --white:      #F2EEFF;
@@ -25,22 +18,42 @@
   --cyan:       #3DDCF7;
   --rose:       #FF6B9D;
   --amber:      #FFB347;
-
-  /* glass panels */
   --glass-bg:   rgba(8, 2, 22, 0.55);
   --glass-border: rgba(155,111,255,0.22);
   --glass-blur: blur(24px) saturate(160%);
-
   --font-display: 'Syne', sans-serif;
   --font-body:    'Inter', sans-serif;
   --nav-h:        68px;
 }
 
-/* ══════════════════════════════════════════════════
-   RESET + BASE
-══════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
+
+#nailiyyetler table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+
+#nailiyyetler th,
+#nailiyyetler td {
+  border: 1px solid rgba(155, 111, 255, 0.25);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+#nailiyyetler th {
+  border-color: rgba(155, 111, 255, 0.45);
+  color: var(--violet);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+#nailiyyetler tr:hover td {
+  background: rgba(155, 111, 255, 0.06);
+}
 
 body {
   font-family: var(--font-body);
@@ -50,44 +63,25 @@ body {
   min-height: 100vh;
 }
 
-/* ══════════════════════════════════════════════════
-   PARALLAX SECTION BACKGROUNDS
-   Each section gets its own full-bleed background image.
-
-   HOW TO CHANGE A BACKGROUND:
-   1. Go to Unsplash (unsplash.com) or NASA image gallery (images.nasa.gov)
-   2. Find an image, click "Download" → copy the direct image URL
-   3. Replace the url('...') value in the matching .bg-* rule below
-   4. Adjust background-position if needed (e.g. "center top" vs "center center")
-══════════════════════════════════════════════════ */
 .bg-hero {
-  /* CURRENT: Deep Milky Way field — NASA/ESA Hubble */
   background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=85&w=2400&auto=format&fit=crop');
 }
 .bg-theory {
-  /* CURRENT: Purple nebula / cosmic cloud */
   background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=85&w=2400&auto=format&fit=crop');
 }
 .bg-questions {
-  /* CURRENT: Star cluster, deep blue tones */
-  background-image: url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=85&w=2400&auto=format&fit=crop');
+  background-image: url('images/black hole2.jpg');
 }
 .bg-drive {
-  /* CURRENT: Galaxy spiral arm, dark green-black */
   background-image: url('https://images.unsplash.com/photo-1543722530-d2c3201371e7?q=85&w=2400&auto=format&fit=crop');
 }
 .bg-astronomy {
-  /* CURRENT: Saturn-like ring planet, dark violet */
-  background-image: url('https://images.unsplash.com/photo-1614314107768-6018061e5700?q=85&w=2400&auto=format&fit=crop');
+  background-image: url('images/saturn.webp');
 }
 .bg-animations {
-  /* CURRENT: Abstract geometric light streaks on black */
   background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=85&w=2400&auto=format&fit=crop');
 }
 
-/* ══════════════════════════════════════════════════
-   SCROLL PROGRESS LINE
-══════════════════════════════════════════════════ */
 #scroll-line {
   position: fixed;
   top: 0; left: 0;
@@ -98,9 +92,6 @@ body {
   transition: width 0.08s linear;
 }
 
-/* ══════════════════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════════════════ */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -148,7 +139,6 @@ nav {
 }
 .nav-link:hover { color: var(--white); background: rgba(155,111,255,0.1); }
 
-/* dropdown */
 .dropdown { position: relative; }
 .dropdown-btn {
   display: flex;
@@ -184,8 +174,13 @@ nav {
   border: 1px solid var(--glass-border);
   border-radius: 10px;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
-.dropdown:hover .dropdown-menu { display: block; }
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+}
 .dropdown-item {
   display: block;
   padding: 10px 18px;
@@ -197,17 +192,13 @@ nav {
 .dropdown-item:hover { background: rgba(155,111,255,0.12); color: var(--white); }
 .dropdown-item + .dropdown-item { border-top: 1px solid rgba(155,111,255,0.1); }
 
-/* ══════════════════════════════════════════════════
-   SECTION SHELL (full-bleed bg + overlay)
-══════════════════════════════════════════════════ */
 .section-shell {
   position: relative;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* parallax */
+  background-attachment: fixed;
   padding: 120px 0;
 }
-/* dark overlay so text is always readable */
 .section-shell::before {
   content: '';
   position: absolute;
@@ -221,7 +212,6 @@ nav {
   pointer-events: none;
 }
 
-/* hero gets a deeper overlay at top for nav contrast */
 .section-shell.hero-shell::before {
   background: linear-gradient(
     to bottom,
@@ -239,9 +229,6 @@ nav {
   padding: 0 40px;
 }
 
-/* ══════════════════════════════════════════════════
-   HERO SECTION
-══════════════════════════════════════════════════ */
 .hero-shell {
   min-height: 100vh;
   display: flex;
@@ -258,16 +245,14 @@ nav {
   padding: var(--nav-h) 40px 80px;
 }
 
-/* Organic asymmetric text block — offset left */
 .hero-text-block {
   max-width: 680px;
 }
 
-/* kinetic title — weight animates on scroll via JS */
 .kinetic-title {
   font-family: var(--font-display);
   font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 400; /* starts light, JS will animate to 800 on scroll */
+  font-weight: 400;
   line-height: 1.0;
   letter-spacing: -0.01em;
   color: var(--white);
@@ -307,37 +292,6 @@ nav {
   max-width: 480px;
 }
 
-/* floating glass stat pills — organic positions */
-.hero-stats {
-  display: flex;
-  gap: 14px;
-  margin-top: 48px;
-  flex-wrap: wrap;
-}
-.stat-pill {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: 100px;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.stat-pill .num {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--violet);
-}
-.stat-pill .label {
-  font-size: 0.78rem;
-  color: var(--muted);
-  line-height: 1.3;
-}
-
-/* floating glass card — overlapping, asymmetric */
 .hero-float-card {
   position: absolute;
   right: 40px;
@@ -367,7 +321,6 @@ nav {
 }
 .hfc-sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
 
-/* scroll cue */
 .scroll-cue {
   position: absolute;
   bottom: 32px;
@@ -392,18 +345,16 @@ nav {
   border-right: 1.5px solid var(--white);
   border-bottom: 1.5px solid var(--white);
   transform: rotate(45deg);
-  animation: bounce 1.6s ease-in-out infinite;
+  animation: floatRandom 5s ease-in-out infinite;
 }
-@keyframes bounce {
-  0%, 100% { transform: rotate(45deg) translateY(0); }
-  50%       { transform: rotate(45deg) translateY(5px); }
+@keyframes floatRandom {
+  0% { transform: rotate(45deg) translate(0, 0); }
+  25% { transform: rotate(45deg) translate(-4px, -4px); }
+  50% { transform: rotate(45deg) translate(4px, 4px); }
+  75% { transform: rotate(45deg) translate(-4px, -4px); }
+  100% { transform: rotate(45deg) translate(0, 0); }
 }
 
-/* ══════════════════════════════════════════════════
-   SECTION COMMON ELEMENTS
-══════════════════════════════════════════════════ */
-
-/* section eyebrow */
 .s-eyebrow {
   font-family: var(--font-display);
   font-size: 0.62rem;
@@ -425,9 +376,8 @@ nav {
   opacity: 0.6;
 }
 
-/* kinetic section heading */
 .s-heading {
-  font-family: var(--font-display);
+  font-family: 'Inter', var(--font-display);
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 400;
   line-height: 1.1;
@@ -438,9 +388,6 @@ nav {
   will-change: font-variation-settings;
 }
 
-/* ══════════════════════════════════════════════════
-   GLASSMORPHISM CARD
-══════════════════════════════════════════════════ */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
@@ -455,9 +402,6 @@ nav {
   transform: translateY(-2px);
 }
 
-/* ══════════════════════════════════════════════════
-   THEORY SECTION — organic 2-col with overlap
-══════════════════════════════════════════════════ */
 #theory .section-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -465,21 +409,17 @@ nav {
   align-items: start;
 }
 
-/* heading spans full width */
 #theory .s-eyebrow,
 #theory .s-heading { grid-column: 1 / -1; }
 
 #theory .doc-col:nth-child(odd) { margin-top: 0; }
-#theory .doc-col:nth-child(even) { margin-top: 40px; } /* organic stagger */
+#theory .doc-col:nth-child(even) { margin-top: 40px; }
 
 @media (max-width: 700px) {
   #theory .section-content { grid-template-columns: 1fr; }
   #theory .doc-col:nth-child(even) { margin-top: 0; }
 }
 
-/* ══════════════════════════════════════════════════
-   DOC ITEM
-══════════════════════════════════════════════════ */
 .doc-item {
   display: flex;
   align-items: center;
@@ -533,16 +473,10 @@ nav {
   flex-shrink: 0;
 }
 
-/* ══════════════════════════════════════════════════
-   USER NOTE BLOCK
-══════════════════════════════════════════════════ */
 .user-note {
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  background: rgba(61,220,247,0.05);
-  border: 1px dashed rgba(61,220,247,0.25);
-  border-radius: 10px;
   padding: 14px 18px;
   margin-top: 16px;
   font-size: 0.8rem;
@@ -552,9 +486,6 @@ nav {
 .user-note strong { color: var(--cyan); display: block; margin-bottom: 2px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .user-note code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 3px; font-size: 0.75rem; }
 
-/* ══════════════════════════════════════════════════
-   QUESTIONS SECTION — subfolder grid
-══════════════════════════════════════════════════ */
 .subfolder-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -590,7 +521,6 @@ nav {
   margin-bottom: 18px;
   line-height: 1.5;
 }
-/* cyan icon tint for questions subfolder */
 .subfolder-box .doc-icon-wrap {
   background: rgba(61,220,247,0.1);
   border-color: rgba(61,220,247,0.25);
@@ -598,9 +528,6 @@ nav {
 .subfolder-box .doc-icon-wrap svg { color: var(--cyan); }
 .subfolder-box .doc-link:hover { color: var(--cyan); }
 
-/* ══════════════════════════════════════════════════
-   DRIVE SECTION
-══════════════════════════════════════════════════ */
 .drive-layout {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -667,9 +594,6 @@ nav {
 }
 .drive-btn svg { width: 14px; height: 14px; }
 
-/* ══════════════════════════════════════════════════
-   ASTRONOMY SECTION — asymmetric overlapping cards
-══════════════════════════════════════════════════ */
 .astro-layout {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -687,7 +611,7 @@ nav {
   gap: 16px;
 }
 .astro-side-cards .glass-card { margin-top: 0; }
-.astro-side-cards .glass-card:nth-child(2) { margin-top: -12px; margin-left: 20px; } /* organic overlap */
+.astro-side-cards .glass-card:nth-child(2) { margin-top: -12px; margin-left: 20px; }
 
 .astro-icon { font-size: 2rem; margin-bottom: 14px; }
 .astro-card-title {
@@ -705,9 +629,6 @@ nav {
   line-height: 1.7;
 }
 
-/* ══════════════════════════════════════════════════
-   ANIMATIONS SECTION
-══════════════════════════════════════════════════ */
 .anim-placeholder {
   text-align: center;
   padding: 60px 0;
@@ -726,38 +647,14 @@ nav {
 }
 #animation-container { min-height: 10px; }
 
-/* ══════════════════════════════════════════════════
-   SECTION DIVIDER
-══════════════════════════════════════════════════ */
-.section-number {
-  position: absolute;
-  right: 48px;
-  top: 130px;
-  font-family: var(--font-display);
-  font-size: 8rem;
-  font-weight: 800;
-  color: rgba(155,111,255,0.04);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-  letter-spacing: -0.04em;
-}
-
-/* ══════════════════════════════════════════════════
-   RESPONSIVE NAV collapse
-══════════════════════════════════════════════════ */
 @media (max-width: 860px) {
   .nav-inner { gap: 2px; padding: 0 16px; }
   .nav-link, .dropdown-btn { font-size: 0.68rem; padding: 6px 8px; }
   .hero-float-card { display: none; }
   .kinetic-title { font-size: clamp(2.4rem, 8vw, 4rem); }
-  .section-number { display: none; }
   .astro-side-cards .glass-card:nth-child(2) { margin-top: 0; margin-left: 0; }
 }
 
-/* ══════════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════════ */
 footer {
   background: rgba(3,0,10,0.95);
   border-top: 1px solid rgba(155,111,255,0.12);
@@ -770,9 +667,6 @@ footer {
   color: rgba(242,238,255,0.2);
 }
 
-/* ══════════════════════════════════════════════════
-   REVEAL ANIMATION (intersection observer)
-══════════════════════════════════════════════════ */
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -785,19 +679,293 @@ footer {
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.22s; }
 .reveal-delay-3 { transition-delay: 0.34s; }
+
+/* Hamısı Button and Modal */
+.hamisi-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 8px 14px;
+  background: rgba(155,111,255,0.15);
+  border: 1px solid rgba(155,111,255,0.3);
+  border-radius: 6px;
+  color: var(--violet);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.hamisi-btn:hover {
+  background: rgba(155,111,255,0.25);
+  border-color: rgba(155,111,255,0.5);
+  color: var(--white);
+}
+.hamisi-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.25s ease;
+}
+.hamisi-btn:hover .hamisi-arrow {
+  transform: translateX(2px);
+}
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.show {
+  display: flex;
+}
+.modal-content {
+  background: rgba(8,2,22,0.95);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.modal-close:hover {
+  color: var(--white);
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--white);
+  margin-bottom: 24px;
+}
+.modal-files {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.modal-file-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(155,111,255,0.12);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.modal-file-item:hover {
+  background: rgba(155,111,255,0.09);
+  border-color: rgba(155,111,255,0.35);
+  transform: translateX(4px);
+}
+.modal-file-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(155,111,255,0.12);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.modal-file-icon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--violet);
+}
+.modal-file-text {
+  flex: 1;
+}
+.modal-file-name {
+  color: var(--white);
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+.modal-file-type {
+  color: var(--muted);
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+
+/* Expandable Sections */
+.expand-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: 1500;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: expandFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes expandFade {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.expand-overlay.active {
+  display: flex;
+  flex-direction: column;
+}
+.expand-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 0, 10, 0.65);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.expand-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: rgba(3,0,10,0.95);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1501;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  animation: slideDown 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.expand-header-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
+.expand-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1.5px solid var(--violet);
+  color: var(--violet);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.expand-close-btn:hover {
+  background: var(--violet);
+  color: var(--ink);
+  box-shadow: 0 0 20px rgba(155,111,255,0.4);
+}
+
+.expand-content {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--nav-h);
+  padding: 60px 40px 80px;
+  max-width: 1100px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(155,111,255,0.15);
+  border: 1px solid rgba(155,111,255,0.3);
+  border-radius: 6px;
+  color: var(--violet);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 16px;
+}
+.expand-btn:hover {
+  background: rgba(155,111,255,0.25);
+  border-color: rgba(155,111,255,0.5);
+  color: var(--white);
+}
+.expand-arrow {
+  font-size: 0.7rem;
+  transition: transform 0.25s ease;
+}
+.expand-btn:hover .expand-arrow {
+  transform: translateX(2px);
+}
+
 </style>
 </head>
 <body>
 
-<!-- Scroll progress line -->
 <div id="scroll-line"></div>
 
-<!-- ══════════════════════════════════════════════
-     NAVIGATION
-══════════════════════════════════════════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-logo">⬡ Olimpiada</a>
+    <a href="#" class="nav-logo">⬡ Astronomiya</a>
     <a href="#theory" class="nav-link">Nəzəriyyə</a>
     <div class="dropdown">
       <button class="dropdown-btn" aria-haspopup="true">
@@ -811,113 +979,63 @@ footer {
     </div>
     <a href="#drive" class="nav-link">Google Drive</a>
     <a href="#astronomy" class="nav-link">Astronomiya haqqında</a>
-    <a href="#animations" class="nav-link">Animasiyalar</a>
+    <a href="#animations" class="nav-link">Interaktiv Animasiyalar</a>
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════════════
-     HERO
-══════════════════════════════════════════════ -->
 <section class="section-shell hero-shell bg-hero" id="hero">
   <div class="hero-content">
     <div class="hero-text-block">
-      <p class="hero-eyebrow">Azərbaycan · Elm Olimpiadaları</p>
+      <p class="hero-eyebrow">Azərbaycan · Elm Olimpiadaları · Astronomiya</p>
       <h1 class="kinetic-title" id="hero-title">
-        Olimpiada<br>
-        <span class="accent">Materialları</span><br>
+        Astronomiya<br>
+        <span class="accent">Olimpiadası</span><br>
         <span class="accent2">Portalı</span>
       </h1>
       <p class="hero-sub">
-        Müsabiqəyə hazırlıq üçün nəzəriyyə materialları, olimpiada sualları, resurslar və interaktiv vasitələr — hamısı bir yerdə.
+        Müsabiqəyə hazırlıq üçün nəzəriyyə materialları, olimpiada sualları, resurslar və daha codecu bir arada təqdim edən portal.
       </p>
-      <div class="hero-stats">
-        <div class="stat-pill">
-          <span class="num">5</span>
-          <span class="label">Bölmə</span>
-        </div>
-        <div class="stat-pill">
-          <span class="num" style="color:var(--cyan)">∞</span>
-          <span class="label">Resurs</span>
-        </div>
-        <div class="stat-pill">
-          <span class="num" style="color:var(--rose)">🏅</span>
-          <span class="label">Olimpiada</span>
-        </div>
-      </div>
     </div>
 
-    <!-- Organic floating glass card — overlapping hero image -->
     <div class="hero-float-card">
       <p class="hfc-label">Növbəti olimpiada</p>
-      <!--
-        BURA TARIX YAZIN:
-        Bu kiçik float kartdakı tarix və adı
-        öz olimpiadanıza uyğun dəyişin.
-      -->
-      <p class="hfc-val">2025</p>
-      <p class="hfc-sub">Tarix məlumatı əlavə edin</p>
+      <p class="hfc-val">IOAA 2026</p>
+      <p class="hfc-sub"><b>Vietnam</b> Sep. 25 - Oct. 5</p>
     </div>
   </div>
 
   <div class="scroll-cue">
-    <span>Aşağı</span>
+    <span></span>
     <div class="chevron"></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     1 · THEORY
-══════════════════════════════════════════════ -->
 <section class="section-shell bg-theory" id="theory">
-  <span class="section-number">01</span>
   <div class="section-content">
-    <p class="s-eyebrow reveal">01 · Bölmə</p>
+    <p class="s-eyebrow reveal">01</p>
     <h2 class="s-heading reveal reveal-delay-1">Nəzəriyyə Materialları</h2>
-
-    <!--
-      SÜTUN QURULUŞU:
-      İki sütunlu organik layout. Sol sütun normal,
-      sağ sütun 40px aşağı sürüşür — bu qeyri-simmetrik effektdir.
-      Sənədləri aşağıdakı kimi bölüşdürün:
-      ilk yarısı .doc-col:first-of-type içinə,
-      ikinci yarısı ikinci .doc-col içinə.
-    -->
 
     <div class="doc-col reveal reveal-delay-1">
       <ul style="list-style:none;padding:0;margin:0;">
-        <!--
-          SƏNƏD ƏLAVƏ ETMƏYİN YOLU:
-          ─────────────────────────────────────────
-          1. href="..." dəyərinə Google Drive,
-             Dropbox və ya birbaşa fayl linkini yazın.
-             Məsələn: href="https://drive.google.com/file/d/XXX/view"
-          2. .doc-link içindəki mətni sənəd adıyla əvəz edin.
-          3. .doc-badge içinə fayl növünü yazın: PDF, DOCX, PPTX
-          4. Yeni sənəd üçün bütün <li>...</li> blokunu
-             kopyalayıb yapışdırın.
-          ─────────────────────────────────────────
-        -->
         <li class="doc-item">
           <div class="doc-icon-wrap">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <a href="URL_DOC1.pdf" target="_blank" class="doc-link">Kombinatorika Qeydləri</a>
+          <a href="file:///C:/Users/LocUser/OneDrive/Dokumentumok/X%20Fizika/Astrophysics/Nəzəriyyə/Fundamental%20Astronomy.pdf" target="_blank" class="doc-link">Fundamental Astronomy (Karttunen)</a>
           <span class="doc-badge">PDF</span>
         </li>
         <li class="doc-item">
           <div class="doc-icon-wrap">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           </div>
-          <a href="URL_DOC2.docx" target="_blank" class="doc-link">C++ Programlaşdırma Əsasları</a>
-          <span class="doc-badge">DOCX</span>
+          <a href="file:///C:/Users/LocUser/OneDrive/Dokumentumok/X%20Fizika/Astrophysics/An_Introduction_to_Modern_Astrophysics%20(1).pdf" target="_blank" class="doc-link">Introduction to Modern Astrophysics (Carroll & Ostlie)</a>
+          <span class="doc-badge">PDF</span>
         </li>
-        <!-- YENİ SƏNƏD BURAYA -->
       </ul>
     </div>
 
     <div class="doc-col reveal reveal-delay-2">
       <ul style="list-style:none;padding:0;margin:0;">
-        <!-- İKİNCİ SÜTUN: eyni <li> forması ilə sənəd əlavə edin -->
         <li class="doc-item">
           <div class="doc-icon-wrap">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -925,36 +1043,61 @@ footer {
           <a href="URL_DOC3.pdf" target="_blank" class="doc-link">Riyaziyyat Olimpiadası Hazırlıq Kitabı</a>
           <span class="doc-badge">PDF</span>
         </li>
-        <!-- YENİ SƏNƏD BURAYA -->
       </ul>
 
       <div class="user-note" style="margin-top:20px;">
-        <span>
-          <strong>Sənəd əlavə et</strong>
-          Hər <code>&lt;li class="doc-item"&gt;</code> blokunu kopyalayın.
-          <code>href=""</code> dəyərini öz linkinizlə, mətni sənəd adıyla,
-          <code>.doc-badge</code> məzmununu fayl növüylə (PDF / DOCX / PPTX) əvəz edin.
-        </span>
+        <a href="#" class="expand-btn" onclick="openExpandSection('expand-theory', 'bg-theory'); return false;">Hamısı <span class="expand-arrow">→</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     2 · OLİMPİADA SUALLARI
-══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="filesModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeFilesModal()">×</button>
+    <h2 class="modal-title">Bütün Fayllar</h2>
+    <div class="modal-files">
+      <a href="file:///C:/Users/LocUser/OneDrive/Dokumentumok/X%20Fizika/Astrophysics/Nəzəriyyə/Fundamental%20Astronomy.pdf" target="_blank" class="modal-file-item">
+        <div class="modal-file-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="modal-file-text">
+          <div class="modal-file-name">Fundamental Astronomy</div>
+          <div class="modal-file-type">PDF</div>
+        </div>
+      </a>
+      <a href="URL_DOC2.docx" target="_blank" class="modal-file-item">
+        <div class="modal-file-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="modal-file-text">
+          <div class="modal-file-name">C++ Programlaşdırma Əsasları</div>
+          <div class="modal-file-type">DOCX</div>
+        </div>
+      </a>
+      <a href="URL_DOC3.pdf" target="_blank" class="modal-file-item">
+        <div class="modal-file-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="modal-file-text">
+          <div class="modal-file-name">Riyaziyyat Olimpiadası Hazırlıq Kitabı</div>
+          <div class="modal-file-type">PDF</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
 <section class="section-shell bg-questions" id="questions">
-  <span class="section-number">02</span>
   <div class="section-content">
-    <p class="s-eyebrow reveal">02 · Bölmə</p>
+    <p class="s-eyebrow reveal">02</p>
     <h2 class="s-heading reveal reveal-delay-1">Olimpiada Sualları</h2>
 
     <div class="subfolder-grid reveal reveal-delay-2">
-      <!-- YERLİ -->
       <div class="subfolder-box" id="yerli">
         <p class="sf-tag">alt qovluq</p>
         <h3 class="sf-title">Yerli</h3>
-        <p class="sf-desc">Respublika miqyaslı yarışların sualları və həlləri.</p>
+        <p class="sf-desc">Respublika miqyaslı müsabiqələrin sualları və həlləri.</p>
         <ul style="list-style:none;padding:0;margin:0;">
           <li class="doc-item">
             <div class="doc-icon-wrap">
@@ -963,19 +1106,14 @@ footer {
             <a href="URL_LOCAL1.pdf" target="_blank" class="doc-link">RFO 2024 — 9-cu sinif</a>
             <span class="doc-badge">PDF</span>
           </li>
-          <!--
-            YERLİ SUAL ƏLAVƏ ET:
-            Yuxarıdakı <li> blokunu kopyala,
-            href və mətni dəyiş.
-          -->
         </ul>
+        <button class="expand-btn" style="width:100%; justify-content:center; margin-top:18px;" onclick="openExpandSection('expand-yerli', 'bg-questions'); return false;">Hamısı <span class="expand-arrow">→</span></button>
       </div>
 
-      <!-- XARİCİ -->
       <div class="subfolder-box" id="xarici">
         <p class="sf-tag">alt qovluq</p>
         <h3 class="sf-title">Xarici</h3>
-        <p class="sf-desc">Beynəlxalq yarışların sualları: IMO, IPhO, IAO və s.</p>
+        <p class="sf-desc">IOAA və digər xarici ölkələrin seçmə və olimpiada sualları</p>
         <ul style="list-style:none;padding:0;margin:0;">
           <li class="doc-item">
             <div class="doc-icon-wrap">
@@ -984,12 +1122,8 @@ footer {
             <a href="URL_INT1.pdf" target="_blank" class="doc-link">IMO 2023 — Problem Set</a>
             <span class="doc-badge">PDF</span>
           </li>
-          <!--
-            XARİCİ SUAL ƏLAVƏ ET:
-            Yuxarıdakı <li> blokunu kopyala,
-            href və mətni dəyiş.
-          -->
         </ul>
+        <button class="expand-btn" style="width:100%; justify-content:center; margin-top:18px;" onclick="openExpandSection('expand-xarici', 'bg-questions'); return false;">Hamısı <span class="expand-arrow">→</span></button>
       </div>
     </div>
 
@@ -997,35 +1131,27 @@ footer {
       <span>
         <strong>Sual əlavə et</strong>
         "Yerli" və ya "Xarici" bölməsindəki <code>&lt;li&gt;</code> blokunu kopyalayın, linki və başlığı dəyişin.
-        Hər il üçün ayrı sıra yaradın. Şərh bloku (<code>&lt;!-- ... --&gt;</code>) var olan yerə yapışdırın.
       </span>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     3 · GOOGLE DRIVE
-══════════════════════════════════════════════ -->
 <section class="section-shell bg-drive" id="drive">
-  <span class="section-number">03</span>
   <div class="section-content">
-    <p class="s-eyebrow reveal">03 · Bölmə</p>
+    <p class="s-eyebrow reveal">03</p>
     <h2 class="s-heading reveal reveal-delay-1">Google Drive</h2>
 
     <div class="drive-layout">
       <div class="drive-text reveal reveal-delay-1">
         <p style="margin-bottom:16px;">
-          Bütün əlavə materiallar — köhnə variant arxivi, video dərslər, qeydlər və hazırlıq planları — mərkəzi Google Drive qovluğunda toplanıb.
+          Drive nümunələrində bir çox yerli və beynəlxalq olimpiadaların sualları resurslar vı nəzəriyyə materialları toplnanmışdır.
         </p>
-        <p style="margin-bottom:16px;">
-          Qovluğa daxil olmaq üçün Google hesabınıza giriş tələb olunmur. "Paylaşılan link" rejimindədir.
-        </p>
+        <p style="margin-bottom:16px;"></p>
         <div class="user-note" style="margin-top:0;">
           <span>
             <strong>Drive linkini dəyiş</strong>
             Aşağıdakı <code>.drive-btn</code> düyməsinin <code>href=""</code> dəyərini
             Google Drive qovluğunuzun "Hamı görə bilər" paylaşım linkiylə əvəz edin.
-            Drive → Paylaş → Link kopyala (Baxıcı rejimi tövsiyə olunur).
           </span>
         </div>
       </div>
@@ -1037,11 +1163,6 @@ footer {
           </svg>
         </div>
         <p class="drive-label">Bütün materialların arxivi bu qovluqdadır</p>
-        <!--
-          DRIVE LİNKİNİZİ BURA YAZIN:
-          href="YOUR_GOOGLE_DRIVE_LINK_HERE" əvəzinə
-          öz Drive paylaşım linkinizi yapışdırın.
-        -->
         <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="drive-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Qovluğu Aç
@@ -1051,235 +1172,108 @@ footer {
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     4 · ASTRONOMİYA OLİMPİADASI HAQQINDA
-══════════════════════════════════════════════ -->
 <section class="section-shell bg-astronomy" id="astronomy">
-  <span class="section-number">04</span>
   <div class="section-content">
-    <p class="s-eyebrow reveal">04 · Bölmə</p>
+    <p class="s-eyebrow reveal">04</p>
     <h2 class="s-heading reveal reveal-delay-1">Astronomiya Olimpiadası haqqında</h2>
 
-    <!--
-      ASİMMETRİK LAYOUT:
-      Sol tərəfdə böyük əsas kart (grid-row: 1/3 tutur),
-      sağda iki kiçik kart üst-üstə, ikincisi sola sürüşür.
-      Bu "space debris" tipli qeyri-xətti görünüş yaradır.
-    -->
     <div class="astro-layout">
-      <!-- Böyük əsas kart -->
-      <div class="glass-card astro-main-card reveal reveal-delay-1">
+      <div class="glass-card astro-main-card reveal reveal-delay-1" onclick="openExpandSection('expand-what-olimpiada', 'bg-astronomy'); return false;" style="cursor:pointer;">
         <div class="astro-icon">🔭</div>
         <p class="astro-card-title">Olimpiada nədir?</p>
         <p class="astro-card-body">
-          <!--
-            BURAYA ÖZ MƏTNİNİZİ YAZIN:
-            Astronomiya olimpiadasının mahiyyəti,
-            neçə mərhələdən ibarət olduğu,
-            kimlərin iştirak edə biləcəyi haqqında
-            3-5 cümlə əlavə edin.
-          -->
-          [Astronomiya olimpiadası haqqında ətraflı məlumat əlavə edin. Olimpiadanın formatı, mərhələləri və iştirak şərtlərini burada izah edin.]
+          [Astronomiya olimpiadası haqqında ətraflı məlumat əlavə edin. Olimpiadanın formatı, mərhələləri və iştirak şərtlərini burada izah edin.]<br><br>Tıklamaq üçün basın →
         </p>
       </div>
 
-      <!-- Sağ kiçik kartlar -->
-<div class="astro-side-cards">
+      <div class="astro-side-cards">
+        <div class="glass-card reveal reveal-delay-2">
+          <div class="astro-icon">📅</div>
+          <p class="astro-card-title">Cədvəl və tarixlər</p>
+          <p class="astro-card-body">
+            [İllik cədvəl: qeydiyyat, yarış, nəticə tarixlərini bura yazın.]
+          </p>
+        </div>
 
-  <div class="glass-card reveal reveal-delay-2">
-    <div class="astro-icon">📅</div>
-    <p class="astro-card-title">Cədvəl və tarixlər</p>
-    <p class="astro-card-body">
-      [İllik cədvəl: qeydiyyat, yarış, nəticə tarixlərini bura yazın.]
-    </p>
-  </div>
+        <div class="glass-card reveal reveal-delay-3" onclick="openExpandSection('expand-achievements', 'bg-astronomy'); return false;" style="cursor:pointer;">
+          <div class="astro-icon">🏅</div>
+          <p class="astro-card-title">Nailiyyətlər</p>
+          <p class="astro-card-body">Baxmaq üçün kliklə</p>
+        </div>
+      </div>
 
-  <!-- NAILIYYETLER BUTTON -->
-  <div class="glass-card reveal reveal-delay-3" id="nailiyyetButton" style="cursor:pointer;">
-    <div class="astro-icon">🏅</div>
-    <p class="astro-card-title">Nailiyyətlər</p>
-    <p class="astro-card-body">Baxmaq üçün kliklə</p>
-  </div>
-
-</div> <!-- astro-side-cards BAĞLANDI -->
-
-      <!-- AÇILAN HİSSƏ -->
       <div id="nailiyyetler" style="display:none; margin-top:15px;">
-          <div class="glass-card">
-              <p class="astro-card-title">Nailiyyətlər</p>
-              <p class="astro-card-body">
-                  <b>2025</b><br>
-                  Komanda rəhbərləri: Famil Mustafa, Vaqif Əliyev<br>
-                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
-                <tr>
-                    <th style="text-align:left;">İştirakçı</th>
-                    <th style="text-align:left;">Nəticə</th>
-                </tr>
-                <tr>
-                    <td>Oqtay Lətifli</td>
-                    <td>Bürünc medal</td>
-                </tr>
-                <tr>
-                    <td>Məhəmməd Cəfərli</td>
-                    <td>Bürünc medal</td>
-                </tr>
-                <tr>
-                    <td>Aqil Güləliyev</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Raiq Babazadə</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Elvin Məcidov</td>
-                    <td> </td>
-                </tr>
+        <div class="glass-card">
+          <p class="astro-card-title">Nailiyyətlər</p>
+          <p class="astro-card-body">
+            <b>2025</b><br>
+            Komanda rəhbərləri: Famil Mustafa, Vaqif Əliyev<br>
+            <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+              <tr><th style="text-align:left;">İştirakçı</th><th style="text-align:left;">Nəticə</th></tr>
+              <tr><td>Oqtay Lətifli</td><td>Bürünc medal</td></tr>
+              <tr><td>Məhəmməd Cəfərli</td><td>Bürünc medal</td></tr>
+              <tr><td>Aqil Güləliyev</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Raiq Babazadə</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Elvin Məcidov</td><td> </td></tr>
             </table>
-                
-                  <br>
-
-                
-                  <b>2024</b><br>
-                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
-                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
-                <tr>
-                    <th style="text-align:left;">İştirakçı</th>
-                    <th style="text-align:left;">Nəticə</th>
-                </tr>
-                <tr>
-                    <td>Məhəmməd Cəfərli</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Oqtay Lətifli</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Aqil Güləliyev</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Adil Səttarov</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Atilla Muradlı</td>
-                    <td> </td>
-                </tr>
+            <br>
+            <b>2024</b><br>
+            Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+            <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+              <tr><th style="text-align:left;">İştirakçı</th><th style="text-align:left;">Nəticə</th></tr>
+              <tr><td>Məhəmməd Cəfərli</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Oqtay Lətifli</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Aqil Güləliyev</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Adil Səttarov</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Atilla Muradlı</td><td> </td></tr>
             </table>
-                
-                  <br>
-
-                  <b>2023</b><br>
-                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
-                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
-                <tr>
-                    <th style="text-align:left;">İştirakçı</th>
-                    <th style="text-align:left;">Nəticə</th>
-                </tr>
-                <tr>
-                    <td>Qəndab Məmmədova</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Nicat Abbasov</td>
-                    <td> </td>
-                </tr>
-                <tr>
-                    <td>Oqtay Lətifli</td>
-                    <td> </td>
-                </tr>
-                <tr>
-                    <td>Nəzrin Miriyeva</td>
-                    <td> </td>
-                </tr>
-                <tr>
-                    <td>Atilla Muradlı</td>
-                    <td> </td>
-                </tr>
+            <br>
+            <b>2023</b><br>
+            Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+            <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+              <tr><th style="text-align:left;">İştirakçı</th><th style="text-align:left;">Nəticə</th></tr>
+              <tr><td>Qəndab Məmmədova</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Nicat Abbasov</td><td> </td></tr>
+              <tr><td>Oqtay Lətifli</td><td> </td></tr>
+              <tr><td>Nəzrin Miriyeva</td><td> </td></tr>
+              <tr><td>Atilla Muradlı</td><td> </td></tr>
             </table>
-
-            
-                  <br>
-
-                  <b>2022</b><br>
-                  Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
-                  <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
-                <tr>
-                    <th style="text-align:left;">İştirakçı</th>
-                    <th style="text-align:left;">Nəticə</th>
-                </tr>
-                <tr>
-                    <td>Vaqif Əliyev</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Nicat Abbasov</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Qəndab Məmmədova</td>
-                    <td> </td>
-                </tr>
-                <tr>
-                    <td>Fəxriyyə ...</td>
-                    <td>Həvəsləndirici mükafat</td>
-                </tr>
-                <tr>
-                    <td>Rəşad ...</td>
-                    <td> </td>
-                </tr>
+            <br>
+            <b>2022</b><br>
+            Komanda rəhbərləri: Famil Mustafa, Abdullah Bazarov<br>
+            <table style="width:100%; margin-top:10px; color:white; border-collapse:none;">
+              <tr><th style="text-align:left;">İştirakçı</th><th style="text-align:left;">Nəticə</th></tr>
+              <tr><td>Vaqif Əliyev</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Nicat Abbasov</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Qəndab Məmmədova</td><td> </td></tr>
+              <tr><td>Fəxriyyə ...</td><td>Həvəsləndirici mükafat</td></tr>
+              <tr><td>Rəşad ...</td><td> </td></tr>
             </table>
-              </p>
-          </div>
+          </p>
+        </div>
       </div>
 
-    <!-- Əlavə kart sırası -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" class="reveal reveal-delay-2">
-      <div class="glass-card">
-        <div class="astro-icon">📋</div>
-        <p class="astro-card-title">İştirak tələbləri</p>
-        <p class="astro-card-body">
-          <!--
-            TƏLƏBLƏRİ BURAYA YAZIN:
-            Yaş həddi, sinif, hazırlıq tövsiyələri.
-          -->
-          [İştirak şərtləri, yaş həddi, qeydiyyat proseduru haqqında məlumat.]
-        </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;" class="reveal reveal-delay-2">
+        <div class="glass-card" onclick="openExpandSection('expand-participation', 'bg-astronomy'); return false;" style="cursor:pointer; grid-column: 1 / -1;">
+          <div class="astro-icon">📋</div>
+          <p class="astro-card-title">İştirak və Hazırlıq</p>
+          <p class="astro-card-body">İştirak şərtləri və hazırlıq tövsiyələri üçün tıklayın →</p>
+        </div>
       </div>
-      <div class="glass-card">
-        <div class="astro-icon">📚</div>
-        <p class="astro-card-title">Hazırlıq tövsiyələri</p>
-        <p class="astro-card-body">
-          <!--
-            TÖVSİYƏLƏRİ BURAYA YAZIN:
-            Hansı kitabları oxumaq lazımdır,
-            hansı mövzulara fokuslanmaq lazımdır.
-          -->
-          [Astronomiya olimpiadasına hazırlıq üçün tövsiyə olunan mənbələr və mövzular.]
-        </p>
-      </div>
-    </div>
 
-    <div class="user-note reveal" style="margin-top:16px;">
-      <span>
-        <strong>Bu bölməni doldur</strong>
-        Hər <code>.astro-card-body</code> içindəki
-        köşəli mötərizəli <code>[...]</code> mətni öz məzmununuzla əvəz edin.
-        Yeni kart əlavə etmək üçün <code>&lt;div class="glass-card"&gt;</code> blokunu kopyalayın.
-      </span>
+      <div class="user-note reveal" style="margin-top:16px;">
+        <span>
+          <strong>Bu bölməni doldur</strong>
+          Hər <code>.astro-card-body</code> içindəki köşəli mötərizəli <code>[...]</code> mətni öz məzmununuzla əvəz edin.
+        </span>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     5 · İNTERAKTİV ANİMASİYALAR
-══════════════════════════════════════════════ -->
 <section class="section-shell bg-animations" id="animations">
-  <span class="section-number">05</span>
   <div class="section-content">
-    <p class="s-eyebrow reveal">05 · Bölmə</p>
+    <p class="s-eyebrow reveal">05</p>
     <h2 class="s-heading reveal reveal-delay-1">İnteraktiv Animasiyalar</h2>
 
     <div class="anim-placeholder reveal reveal-delay-2">
@@ -1294,11 +1288,166 @@ footer {
 
 <footer>⬡ Olimpiada Resursları Portalı · Azərbaycan</footer>
 
-<!-- ══════════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════════ -->
+<div class="expand-overlay bg-theory" id="expand-theory">
+  <div class="expand-header">
+    <span class="expand-header-title">Nəzəriyyə Materialları</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-theory')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">Bütün Nəzəriyyə Materialları</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;">
+      <div class="glass-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--violet);"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span style="font-weight:600;color:var(--white);">Fundamental Astronomy</span>
+        </div>
+        <p style="color:var(--muted);font-size:0.9rem;">Astronomiya üzrə ətraflı qeydlər və nümunələr.</p>
+        <a href="file:///C:/Users/LocUser/OneDrive/Dokumentumok/X%20Fizika/Astrophysics/Nəzəriyyə/Fundamental%20Astronomy.pdf" target="_blank" style="display:inline-block; margin-top:12px; color:var(--violet); text-decoration:none; font-size:0.85rem; font-weight:600;">PDF-i Aç →</a>
+      </div>
+      <div class="glass-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--cyan);"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span style="font-weight:600;color:var(--white);">C++ Programlaşdırma Əsasları</span>
+        </div>
+        <p style="color:var(--muted);font-size:0.9rem;">Olimpiada hazırlığı üçün C++ dili və alqoritmlər.</p>
+        <a href="URL_DOC2.docx" target="_blank" style="display:inline-block; margin-top:12px; color:var(--cyan); text-decoration:none; font-size:0.85rem; font-weight:600;">DOCX-i Aç →</a>
+      </div>
+      <div class="glass-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;color:var(--rose);"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span style="font-weight:600;color:var(--white);">Riyaziyyat Olimpiadası Hazırlıq Kitabı</span>
+        </div>
+        <p style="color:var(--muted);font-size:0.9rem;">Riyaziyyat olimpiadasına hazırlıq üçün kompleks kitab.</p>
+        <a href="URL_DOC3.pdf" target="_blank" style="display:inline-block; margin-top:12px; color:var(--rose); text-decoration:none; font-size:0.85rem; font-weight:600;">PDF-i Aç →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="expand-overlay bg-questions" id="expand-yerli">
+  <div class="expand-header">
+    <span class="expand-header-title">Yerli Olimpiada Sualları</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-yerli')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">Yerli Olimpiada Sualları</h2>
+    <div class="glass-card" style="margin-bottom:20px;">
+      <h3 style="color:var(--cyan); font-family: var(--font-display); font-size:1.2rem; margin-bottom:16px;">Respublika Olimpiadası</h3>
+      <p style="color:var(--muted); margin-bottom:20px;">Respublika miqyaslı olimpiada sualları və həlləri</p>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li class="doc-item">
+          <div class="doc-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <a href="URL_LOCAL1.pdf" target="_blank" class="doc-link">RFO 2024 — 9-cu sinif</a>
+          <span class="doc-badge">PDF</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="expand-overlay bg-questions" id="expand-xarici">
+  <div class="expand-header">
+    <span class="expand-header-title">Xarici Olimpiada Sualları</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-xarici')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">Xarici Olimpiada Sualları</h2>
+    <div class="glass-card" style="margin-bottom:20px;">
+      <h3 style="color:var(--cyan); font-family: var(--font-display); font-size:1.2rem; margin-bottom:16px;">Beynəlxalq Olimpiadaları</h3>
+      <p style="color:var(--muted); margin-bottom:20px;">IOAA və digər xarici ölkələrin seçmə və olimpiada sualları</p>
+      <ul style="list-style:none; padding:0; margin:0;">
+        <li class="doc-item">
+          <div class="doc-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <a href="URL_INT1.pdf" target="_blank" class="doc-link">IMO 2023 — Problem Set</a>
+          <span class="doc-badge">PDF</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="expand-overlay bg-astronomy" id="expand-what-olimpiada">
+  <div class="expand-header">
+    <span class="expand-header-title">Olimpiada Nədir?</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-what-olimpiada')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">🔭 Olimpiada Nədir?</h2>
+    <div class="glass-card">
+      <p style="color:var(--muted); font-size:1.05rem; line-height:1.8; margin-bottom:20px;">
+        Astronomiya olimpiadası, məktəb tələbələrinin astronomiya sahəsində bilik və bacarıqlarını sınayan beynəlxalq yarışdır. 
+      </p>
+      <p style="color:var(--muted); font-size:1.05rem; line-height:1.8; margin-bottom:20px;">
+        Bu yarış, tələbələrin astronomiya, astrofizika və riyaziyyatda öz biliklərini tətbiq etmə qabiliyyətini qiymətləndirmə, eləcə də beynəlxalq səviyyədə fərqlənən uşaqları tanıma məqsədi daşıyır.
+      </p>
+      <p style="color:var(--muted); font-size:1.05rem; line-height:1.8;">
+        [Astronomiya olimpiadası haqqında ətraflı məlumat əlavə edin. Olimpiadanın formatı, mərhələləri və iştirak şərtlərini burada izah edin.]
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="expand-overlay bg-astronomy" id="expand-achievements">
+  <div class="expand-header">
+    <span class="expand-header-title">Nailiyyətlər</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-achievements')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">🏅 Nailiyyətlər</h2>
+    <div id="nailiyyetler-expanded" style="display:contents;">
+    </div>
+  </div>
+</div>
+
+<div class="expand-overlay bg-astronomy" id="expand-participation">
+  <div class="expand-header">
+    <span class="expand-header-title">İştirak və Hazırlıq</span>
+    <button class="expand-close-btn" onclick="closeExpandSection('expand-participation')">
+      <span>Geriyə</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+  </div>
+  <div class="expand-content">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 32px;">İştirak və Hazırlıq</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div class="glass-card">
+        <div class="astro-icon">📋</div>
+        <p class="astro-card-title">İştirak Tələbləri</p>
+        <p class="astro-card-body" style="margin-bottom:16px;">
+          [İştirak şərtləri, yaş həddi, qeydiyyat proseduru haqqında məlumat.]
+        </p>
+      </div>
+      <div class="glass-card">
+        <div class="astro-icon">📚</div>
+        <p class="astro-card-title">Hazırlıq Tövsiyələri</p>
+        <p class="astro-card-body" style="margin-bottom:16px;">
+          [Astronomiya olimpiadasına hazırlıq üçün tövsiyə olunan mənbələr və mövzular.]
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ─── SCROLL PROGRESS LINE ─────────────────── */
 const scrollLine = document.getElementById('scroll-line');
 window.addEventListener('scroll', () => {
   const scrolled = document.documentElement.scrollTop;
@@ -1306,22 +1455,8 @@ window.addEventListener('scroll', () => {
   scrollLine.style.width = (scrolled / total * 100) + '%';
 }, { passive: true });
 
-/* ─── KINETIC TYPOGRAPHY ────────────────────
-   Syne is a variable font (wght 400–800).
-   As the user scrolls past 0–300px,
-   heading font-weight ramps up from 400 → 800,
-   giving a "tightening" pull effect.
-
-   HOW IT WORKS:
-   - We watch scrollY
-   - Map it to a weight value between 400 and 800
-   - Apply it via font-variation-settings
-   - All .s-heading elements across sections respond
-     to their own visibility ratio via IntersectionObserver
-*/
 function lerp(a, b, t) { return a + (b - a) * Math.min(Math.max(t, 0), 1); }
 
-/* Hero title: weight increases as you scroll away from top */
 const heroTitle = document.getElementById('hero-title');
 window.addEventListener('scroll', () => {
   const t = Math.min(window.scrollY / 400, 1);
@@ -1331,7 +1466,6 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 
-/* Section headings: animate weight when section is in viewport */
 const sectionHeadings = document.querySelectorAll('.s-heading');
 const headingObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -1345,9 +1479,6 @@ const headingObserver = new IntersectionObserver((entries) => {
 
 sectionHeadings.forEach(h => headingObserver.observe(h));
 
-/* ─── REVEAL ON SCROLL ──────────────────────
-   Fades elements in as they enter the viewport.
-*/
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1359,11 +1490,98 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-/* ─── INIT ──────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Portal işə düşdü 🌌');
-  /* Animasiya bölməsi: initAnimations() buraya gələcək */
+  
+  const dropdowns = document.querySelectorAll('.dropdown');
+  let hideTimer = null;
+  
+  dropdowns.forEach(dropdown => {
+    const btn = dropdown.querySelector('.dropdown-btn');
+    const menu = dropdown.querySelector('.dropdown-menu');
+    
+    dropdown.addEventListener('mouseenter', () => {
+      clearTimeout(hideTimer);
+      menu.classList.add('show');
+    });
+    
+    dropdown.addEventListener('mouseleave', () => {
+      hideTimer = setTimeout(() => {
+        menu.classList.remove('show');
+      }, 500);
+    });
+  });
 });
+
+function openFilesModal(event) {
+  event.preventDefault();
+  document.getElementById('filesModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFilesModal() {
+  document.getElementById('filesModal').classList.remove('show');
+  document.body.style.overflow = 'auto';
+}
+
+document.getElementById('filesModal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'filesModal') {
+    closeFilesModal();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeFilesModal();
+    document.querySelectorAll('.expand-overlay.active').forEach(overlay => {
+      closeExpandSection(overlay.id);
+    });
+  }
+});
+
+function openExpandSection(sectionId, bgImageClass = '') {
+  const overlay = document.getElementById(sectionId);
+  if (overlay) {
+    if (sectionId === 'expand-achievements') {
+      const originalNailiyyetler = document.getElementById('nailiyyetler');
+      const expandedContainer = document.getElementById('nailiyyetler-expanded');
+      if (originalNailiyyetler && expandedContainer) {
+        expandedContainer.innerHTML = originalNailiyyetler.innerHTML;
+      }
+    }
+    
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    if (bgImageClass) {
+      const bgImages = {
+        'bg-theory': 'url("https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=85&w=2400&auto=format&fit=crop")',
+        'bg-questions': 'url("images/black hole2.jpg")',
+        'bg-astronomy': 'url("images/saturn.webp")',
+      };
+      if (bgImages[bgImageClass]) {
+        overlay.style.backgroundImage = bgImages[bgImageClass];
+      }
+    }
+    
+    overlay.scrollTop = 0;
+  }
+}
+
+function closeExpandSection(sectionId) {
+  const overlay = document.getElementById(sectionId);
+  if (overlay) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('expand-overlay')) {
+    closeExpandSection(e.target.id);
+  }
+});
+
 </script>
 </body>
 </html>
